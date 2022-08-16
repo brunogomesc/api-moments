@@ -7,7 +7,7 @@ routes.get('/', async (req,res) => {
       try {
             const moments = await Moment.findAll()
 
-            if(moments !== null) {
+            if(moments !== null && moments.length !== 0) {
                   await generateLog(
                         `/api/${config.version}/moment/read_moments_all`,
                         'GET',
@@ -34,8 +34,7 @@ routes.get('/', async (req,res) => {
                   (error).toString(),
                   'Error Exception'
             )
-
-            return res.status(500).json({error: error})
+            return res.status(500).json({erro: (error).toString()})
       }
 })
 

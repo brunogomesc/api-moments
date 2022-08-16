@@ -1,26 +1,26 @@
 const Sequelize = require('sequelize')
 const database = require('../../database/dbconfig')
-const modelsComment = require('./Comment')
 
-const Moment = database.define('moment',{
+const Comment = database.define('comment',{
       id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             allowNull: false,
             primaryKey: true
       },
-      title: {
+      username: {
             type: Sequelize.STRING,
             allowNull: false,
       },
-      description: {
+      comment: {
             type: Sequelize.STRING,
             allowNull: false,
       },
-      image: {
+      moment_id: {
             type: Sequelize.STRING,
             allowNull: false,
+            foreignKey: true
       }
 })
 
-module.exports = Moment;
+module.exports = Comment;

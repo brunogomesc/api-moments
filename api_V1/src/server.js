@@ -13,6 +13,9 @@ const deleteMoment = require('./routes/routesMoments/removeMoment')
 
 //#region Imports for route Comments
 const createComment = require('./routes/routesComments/createComment')
+const readAllComment = require('./routes/routesComments/readAllComments')
+const updateComment = require('./routes/routesComments/updateComment')
+const deleteComment = require('./routes/routesComments/removeComment')
 //#endregion
 
 //#region Configuration Express
@@ -64,6 +67,13 @@ app.use(`/api/${config.version}/moment/delete_moment`,deleteMoment)
 
 //#region Routes Comments
 app.use(`/api/${config.version}/comment/create_comment`,createComment)
+
+app.use(`/api/${config.version}/comment/read_all_comment`,readAllComment)
+
+app.use(`/api/${config.version}/comment/update_comment`,updateComment)
+
+app.use(`/api/${config.version}/comment/delete_comment`,deleteComment)
+
 //#endregion
 
 //#region Starting application

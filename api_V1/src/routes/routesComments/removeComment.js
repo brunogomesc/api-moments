@@ -1,39 +1,37 @@
 const routes = require('express').Router()
-const Moment = require('../../models/Moment')
+const Comment = require('../../models/Comment')
 const config = require('../../../config')
-const multer = require('multer');
-const v4 = require('uuid').v4()
 const generateLog = require('../../service/GenerateLog');
 
 routes.delete('/:id', async (req,res) => {
       const id = req.params.id
 
       try {
-            const result = await Moment.destroy({where:{id: id}})
+            const result = await Comment.destroy({where:{id: id}})
 
-            if(result !== null) {
+            if(result !== null && result !== 0) {
 
                   await generateLog(
-                        `/api/${config.version}/moment/delete_moment/:id`,
+                        `/api/${config.version}/comment/delete_comment/:id`,
                         'DELETE',
-                        'The moment was successfully deleted!',
+                        'The comment was successfully deleted!',
                         'Execute sucessfully'
                   )
-                  return res.status(200).json({result: 'The moment was successfully deleted!'})
+                  return res.status(200).json({result: 'The comment was successfully deleted!'})
             }
             else {
                   await generateLog(
-                        `/api/${config.version}/moment/delete_moment/:id`,
+                        `/api/${config.version}/comment/delete_comment/:id`,
                         'DELETE',
-                        'Moment not found!',
+                        'Comment not found!',
                         'Execute sucessfully'
                   )
-                  return res.status(400).json({result: 'Moment not found!'})
+                  return res.status(400).json({result: 'Comment not found!'})
             }
       } catch (error) {
             // Error handling
             await generateLog(
-                  `/api/${config.version}/moment/delete_moment/:id`,
+                  `/api/${config.version}/comment/delete_comment/:id`,
                   'Error',
                   (error).toString(),
                   'Error Exception'

@@ -1,35 +1,35 @@
 const routes = require('express').Router()
-const Moment = require('../../models/Moment')
+const Comment = require('../../models/Comment')
 const config = require('../../../config')
 const generateLog = require('../../service/GenerateLog');
 
 routes.get('/:id', async (req,res) => {
       const id = req.params.id
       try {
-            const moment = await Moment.findByPk(id)
+            const comment = await Comment.findAll({where: { moment_id: id}})
 
-            if(moment !== null && moment.length !== 0) {
+            if(comment !== null && comment.length !== 0) {
                   await generateLog(
-                        `/api/${config.version}/moment/read_moment_byid/:id`,
+                        `/api/${config.version}/comment/read_all_comment/:id`,
                         'GET',
-                        'The moment has been successfully listed!',
+                        'The comment has been successfully listed!',
                         'Execute sucessfully'
                   )
-                  return res.status(200).json({result: moment}) 
+                  return res.status(200).json({result: comment}) 
             }
             else {
                   await generateLog(
-                        `/api/${config.version}/moment/read_moment_byid/:id`,
+                        `/api/${config.version}/comment/read_all_comment/:id`,
                         'GET',
-                        'Moment not found!',
+                        'Comment not found!',
                         'Execute sucessfully'
                   )
-                  return res.status(400).json({result: 'Moment not found!'})
+                  return res.status(400).json({result: 'Comment not found!'})
             }
       } catch (error) {
             // Error handling
             await generateLog(
-                  `/api/${config.version}/moment/read_moment_byid`,
+                  `/api/${config.version}/comment/read_all_comment/:id`,
                   'Error',
                   (error).toString(),
                   'Error Exception'

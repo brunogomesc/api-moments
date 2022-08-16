@@ -1,56 +1,34 @@
 const routes = require('express').Router()
-const Moment = require('../../models/Moment')
+const Comment = require('../../models/Comment')
 const config = require('../../../config')
-const multer = require('multer');
-const v4 = require('uuid').v4()
 const generateLog = require('../../service/GenerateLog');
 
-var fileName
-
-//Save the file with new name
-const storage = multer.diskStorage({
-      destination: function (req, file, cb) {
-          cb(null, 'uploads/')
-      },
-      filename: function (req, file, cb) {
-          // Extracting the original file extension:
-          const extensionFile = file.originalname.split('.')[1];
-  
-          // Indicates the new file name:
-          cb(null, `${v4}.${extensionFile}`)
-
-          fileName = `${v4}.${extensionFile}`
-      }
-});
-  
-const upload = multer({ storage });
-
-routes.post('/', upload.single('image'), async (req,res) => {
+routes.post('/:id', async (req,res) => {
       const body = req.body
+      const id = req.params.id
       try {
-            await Moment.create({
-                  title: body['title'],
-                  description: body['description'],
-                  image: fileName
+            await Comment.create({
+                  username: body['username'],
+                  comment: body['comment'],
+                  moment_id: id
             })
 
             await generateLog(
-                  `/api/${config.version}/moment/create_moment`,
+                  `/api/${config.version}/comment/create_moment/:id`,
                   'POST',
-                  'The moment has created successfully!',
+                  'The comment has created successfully!',
                   'Execute sucessfully'
             )
 
-            return res.status(200).json({result: 'The moment has created successfully!'})
+            return res.status(200).json({result: 'The comment has created successfully!'})
       } catch (error) {
             // Error handling
             await generateLog(
-                  `/api/${config.version}/moment/create_moment`,
+                  `/api/${config.version}/comment/create_moment/:id`,
                   'Error',
                   (error).toString(),
                   'Error Exception'
             )
-
             return res.status(500).json({error: error})
       }
 })

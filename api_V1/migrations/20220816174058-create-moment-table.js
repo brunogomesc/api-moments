@@ -1,8 +1,8 @@
-const Sequelize = require('sequelize')
-const database = require('../../database/dbconfig')
-const modelsComment = require('./Comment')
+'use strict';
 
-const Moment = database.define('moment',{
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    await queryInterface.createTable('moments', {
       id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
@@ -21,6 +21,10 @@ const Moment = database.define('moment',{
             type: Sequelize.STRING,
             allowNull: false,
       }
-})
+    })
+  },
 
-module.exports = Moment;
+  async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable('moments');
+  }
+};
