@@ -1,4 +1,5 @@
 'use strict';
+const modelsMoment = require('../src/models/Moment')
 
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -22,6 +23,8 @@ module.exports = {
         allowNull: false,
       }
     })
+
+    Comment.belongsTo(modelsMoment, { foreignKey: 'moment_id', allowNull: false })
   },
 
   async down (queryInterface, Sequelize) {

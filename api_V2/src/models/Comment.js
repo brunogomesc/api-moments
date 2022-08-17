@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const database = require('../../database/dbconfig')
+const modelsMoment = require('./Moment')
 
 const Comment = database.define('comment',{
       id: {
@@ -15,6 +16,9 @@ const Comment = database.define('comment',{
       comment: {
             type: Sequelize.STRING,
             allowNull: false,
+            validate: {
+                  notEmpty: true, 
+            }
       },
       moment_id: {
             type: Sequelize.STRING,

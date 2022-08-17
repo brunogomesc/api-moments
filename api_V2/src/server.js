@@ -9,6 +9,7 @@ const readMomentsAll = require('./routes/routesMoments/readAllMoments')
 const readMomentByid = require('./routes/routesMoments/readMomentById')
 const updateMoment = require('./routes/routesMoments/updateMoment')
 const deleteMoment = require('./routes/routesMoments/removeMoment')
+const readMomentsAllAndComments = require('./routes/routesMoments/readAllMomentsAndCountComments')
 //#endregion
 
 //#region Imports for route Comments
@@ -57,6 +58,8 @@ app.get(`/api/${config.version}/`, async (req,res) => {
 app.use(`/api/${config.version}/moment/create_moment`,createMoment)
 
 app.use(`/api/${config.version}/moment/read_moments_all`,readMomentsAll)
+
+app.use(`/api/${config.version}/moment/read_moments_comments_all`,readMomentsAllAndComments)
 
 app.use(`/api/${config.version}/moment/read_moments_byid`,readMomentByid)
 

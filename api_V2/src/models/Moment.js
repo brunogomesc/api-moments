@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
-const database = require('../../database/dbconfig')
-const modelsComment = require('./Comment')
+const database = require('../../database/dbconfig');
+const Comment = require('./Comment');
 
 const Moment = database.define('moment',{
       id: {
@@ -20,6 +20,9 @@ const Moment = database.define('moment',{
       image: {
             type: Sequelize.STRING,
             allowNull: false,
+            validate: {
+                  isUUID: 4,
+            }
       }
 })
 
