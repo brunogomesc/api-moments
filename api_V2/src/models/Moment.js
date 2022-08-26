@@ -20,9 +20,6 @@ const Moment = database.define('moment',{
       image: {
             type: Sequelize.STRING,
             allowNull: false,
-            validate: {
-                  isUUID: 4,
-            }
       }
 })
 

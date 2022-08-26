@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const config = require('../config')
 const database = require('../database/dbconfig')
 const generateLog = require('./service/GenerateLog')
@@ -25,6 +26,8 @@ const app = express()
 app.use(express.urlencoded({extended: true}))
 
 app.use(express.json())
+
+app.use(cors())
 //#endregion
 
 //#region Default route for run validation
