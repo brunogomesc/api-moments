@@ -9,25 +9,32 @@ const sequelize = require('../../../database/dbconfig');
 routes.get('/', async (req,res) => {
       try {
             const moments = await sequelize.query(
-                  `select m.id, m.title, m.description, m.image, count(c.id) as Quantity_Comments, m.createdAt, m.updatedAt  from moments m 
-                  inner JOIN comment c
+                  `select m.id, m.title, m.description, m.image, 
+                  c.username, c.comment, m.createdAt, m.updatedAt  
+                  from moments m 
+                  left JOIN comment c 
                   on m.id = c.moment_id
                   group by m.id, 
                   m.title, 
                   m.description, 
                   m.image, 
+                  c.username, 
+                  c.comment,
                   m.createdAt, 
                   m.updatedAt`
             )
 
+            moments.splice(-1,1)
+
             if(moments !== null && moments.length !== 0) {
+                  
                   await generateLog(
                         `/api/${config.version}/moment/read_moments_comments_all`,
                         'GET',
                         'The moments and comments have been successfully listed!',
                         'Execute sucessfully'
                   )
-                  return res.status(200).json({result: moments}) 
+                  return res.status(200).json({moments}) 
             }
             else {
                   await generateLog(
